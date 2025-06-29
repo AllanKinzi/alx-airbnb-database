@@ -1,5 +1,8 @@
 # Database Requirements
 
+## ERD Diagram Link
+- https://drive.google.com/file/d/1kW5gJxg-hIM31hJRy9Prtx8UQBCWgdmV/view?usp=sharing
+
 ## Entities and Attributes
 
 ### User
