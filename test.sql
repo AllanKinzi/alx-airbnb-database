@@ -1,0 +1,2 @@
+10:00:25	CREATE TABLE Booking_New (     id INT PRIMARY KEY,     user_id INT,     start_date DATE,     end_date DATE,     status VARCHAR(50) ) PARTITION BY RANGE (YEAR(start_date)) (     PARTITION p2023 VALUES LESS THAN (2024),     PARTITION p2024 VALUES LESS THAN (2025),     PARTITION p2025 VALUES LESS THAN (2026),     PARTITION pmax VALUES LESS THAN MAXVALUE )	Error Code: 1503. A PRIMARY KEY must include all columns in the table's partitioning function (prefixed columns are not considered).	1.000 sec
+

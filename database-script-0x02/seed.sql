@@ -7,21 +7,21 @@
 
 -- Admin Users
 INSERT INTO User (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
-('550e8400-e29b-41d4-a716-446655440001', 'John', 'Admin', 'admin@propertymanager.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0101', 'admin', '2024-01-15 08:00:00'),
-('550e8400-e29b-41d4-a716-446655440002', 'Sarah', 'Wilson', 'sarah.admin@propertymanager.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0102', 'admin', '2024-01-16 09:15:00');
+('550e8400-e29b-41d4-a716-446655440001', 'John', 'Admin', 'admin@propertymanager.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550101', 'admin', '2024-01-15 08:00:00'),
+('550e8400-e29b-41d4-a716-446655440002', 'Sarah', 'Wilson', 'sarah.admin@propertymanager.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550102', 'admin', '2024-01-16 09:15:00');
 
 -- Host Users
 INSERT INTO User (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
-('550e8400-e29b-41d4-a716-446655440003', 'Michael', 'Johnson', 'michael.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0201', 'host', '2024-02-01 10:30:00'),
-('550e8400-e29b-41d4-a716-446655440004', 'Emily', 'Davis', 'emily.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0202', 'host', '2024-02-03 14:20:00'),
-('550e8400-e29b-41d4-a716-446655440005', 'David', 'Brown', 'david.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0203', 'host', '2024-02-05 16:45:00'),
-('550e8400-e29b-41d4-a716-446655440006', 'Lisa', 'Anderson', 'lisa.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0204', 'host', '2024-02-07 11:10:00');
+('550e8400-e29b-41d4-a716-446655440003', 'Michael', 'Johnson', 'michael.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550201', 'host', '2024-02-01 10:30:00'),
+('550e8400-e29b-41d4-a716-446655440004', 'Emily', 'Davis', 'emily.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550202', 'host', '2024-02-03 14:20:00'),
+('550e8400-e29b-41d4-a716-446655440005', 'David', 'Brown', 'david.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550203', 'host', '2024-02-05 16:45:00'),
+('550e8400-e29b-41d4-a716-446655440006', 'Lisa', 'Anderson', 'lisa.host@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550204', 'host', '2024-02-07 11:10:00');
 
 -- Guest Users
 INSERT INTO User (user_id, first_name, last_name, email, password_hash, phone_number, role, created_at) VALUES
-('550e8400-e29b-41d4-a716-446655440007', 'Robert', 'Miller', 'robert.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0301', 'guest', '2024-03-01 09:00:00'),
-('550e8400-e29b-41d4-a716-446655440008', 'Jennifer', 'Garcia', 'jennifer.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0302', 'guest', '2024-03-05 13:25:00'),
-('550e8400-e29b-41d4-a716-446655440009', 'Christopher', 'Martinez', 'chris.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+1-555-0303', 'guest', '2024-03-10 15:40:00'),
+('550e8400-e29b-41d4-a716-446655440007', 'Robert', 'Miller', 'robert.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550301', 'guest', '2024-03-01 09:00:00'),
+('550e8400-e29b-41d4-a716-446655440008', 'Jennifer', 'Garcia', 'jennifer.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550302', 'guest', '2024-03-05 13:25:00'),
+('550e8400-e29b-41d4-a716-446655440009', 'Christopher', 'Martinez', 'chris.guest@email.com', '$2b$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/lewF5JUoKOEm5e2tK', '+15550303', 'guest', '2024-03-10 15:40:00'),
 
 -- ===================================
 -- LOCATION TABLE INSERTS

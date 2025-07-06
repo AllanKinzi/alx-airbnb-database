@@ -18,7 +18,7 @@ DROP TABLE IF EXISTS User;
 
 -- User Table
 CREATE TABLE User (
-    user_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    user_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     first_name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
@@ -28,13 +28,13 @@ CREATE TABLE User (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     -- Constraints
-    CONSTRAINT user_email_format CHECK (email ~ '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$'),
-    CONSTRAINT user_phone_format CHECK (phone_number IS NULL OR phone_number ~ '^\+?[1-9]\d{1,14}$')
+    CONSTRAINT user_email_format CHECK (email REGEXP '^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}$'),
+    CONSTRAINT user_phone_format CHECK (phone_number IS NULL OR phone_number REGEXP '^\\+?[1-9][0-9]{1,14}$')
 );
 
 -- Location Table (New - for normalization)
 CREATE TABLE Location (
-    location_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    location_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
     street_address VARCHAR(255) NOT NULL,
     city VARCHAR(100) NOT NULL,
     state_province VARCHAR(100) NOT NULL,
@@ -48,14 +48,14 @@ CREATE TABLE Location (
 
 -- Property Table (Modified for normalization)
 CREATE TABLE Property (
-    property_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    host_id UUID NOT NULL,
-    location_id UUID NOT NULL,
+    property_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    host_id CHAR(36) NOT NULL,
+    location_id CHAR(36) NOT NULL,
     name VARCHAR(255) NOT NULL,
     description TEXT NOT NULL,
     price_per_night DECIMAL(10,2) NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
     -- Foreign Key Constraints
     CONSTRAINT fk_property_host FOREIGN KEY (host_id) REFERENCES User(user_id) ON DELETE CASCADE,
@@ -68,9 +68,9 @@ CREATE TABLE Property (
 
 -- Booking Table
 CREATE TABLE Booking (
-    booking_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    property_id UUID NOT NULL,
-    user_id UUID NOT NULL,
+    booking_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    property_id CHAR(36) NOT NULL,
+    user_id CHAR(36) NOT NULL,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
     total_price DECIMAL(10,2) NOT NULL,
@@ -83,15 +83,17 @@ CREATE TABLE Booking (
     
     -- Check Constraints
     CONSTRAINT booking_date_valid CHECK (end_date > start_date),
-    CONSTRAINT booking_price_positive CHECK (total_price > 0),
-    CONSTRAINT booking_future_date CHECK (start_date >= CURRENT_DATE)
+    CONSTRAINT booking_price_positive CHECK (total_price > 0)
+    -- Note: Future date validation should be handled in application logic
+    -- MySQL doesn't allow CURDATE() in CHECK constraints
 );
 
 -- Payment Table
 CREATE TABLE Payment (
-    payment_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    booking_id UUID NOT NULL,
+    payment_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    booking_id CHAR(36) NOT NULL,
     amount DECIMAL(10,2) NOT NULL,
+    payment_status VARCHAR(20) NOT NULL CHECK (payment_status IN ('pending', 'completed', 'failed', 'canceled')),
     payment_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     payment_method VARCHAR(20) NOT NULL CHECK (payment_method IN ('credit_card', 'paypal', 'stripe')),
     
@@ -100,13 +102,14 @@ CREATE TABLE Payment (
     
     -- Check Constraints
     CONSTRAINT payment_amount_positive CHECK (amount > 0)
+
 );
 
 -- Review Table
 CREATE TABLE Review (
-    review_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    property_id UUID NOT NULL,
-    user_id UUID NOT NULL,
+    review_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    property_id CHAR(36) NOT NULL,
+    user_id CHAR(36) NOT NULL,
     rating INTEGER NOT NULL,
     comment TEXT NOT NULL,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -125,9 +128,9 @@ CREATE TABLE Review (
 
 -- Message Table
 CREATE TABLE Message (
-    message_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    sender_id UUID NOT NULL,
-    recipient_id UUID NOT NULL,
+    message_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    sender_id CHAR(36) NOT NULL,
+    recipient_id CHAR(36) NOT NULL,
     message_body TEXT NOT NULL,
     sent_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
@@ -146,19 +149,19 @@ CREATE TABLE Message (
 
 -- User Address Table (Optional - for multiple addresses per user)
 CREATE TABLE User_Address (
-    address_id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    user_id UUID NOT NULL,
-    location_id UUID NOT NULL,
+    address_id CHAR(36) PRIMARY KEY DEFAULT (UUID()),
+    user_id CHAR(36) NOT NULL,
+    location_id CHAR(36) NOT NULL,
     address_type VARCHAR(20) NOT NULL CHECK (address_type IN ('billing', 'shipping', 'primary')),
     is_default BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
     -- Foreign Key Constraints
     CONSTRAINT fk_user_address_user FOREIGN KEY (user_id) REFERENCES User(user_id) ON DELETE CASCADE,
-    CONSTRAINT fk_user_address_location FOREIGN KEY (location_id) REFERENCES Location(location_id) ON DELETE RESTRICT,
+    CONSTRAINT fk_user_address_location FOREIGN KEY (location_id) REFERENCES Location(location_id) ON DELETE RESTRICT
     
-    -- Unique Constraint (one default address per user per type)
-    CONSTRAINT user_address_default_unique UNIQUE (user_id, address_type, is_default) DEFERRABLE INITIALLY DEFERRED
+    -- Note: MySQL doesn't support DEFERRABLE constraints
+    -- You may need to handle the default address logic in your application
 );
 
 -- ====================================================================
